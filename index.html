@@ -1,0 +1,244 @@
+import React, { useState } from 'react';
+import { Camera, Clock, MapPin, Users, Instagram, Phone, ChevronDown, Sparkles, Star } from 'lucide-react';
+
+const PromoPopup = () => (
+  <div className="fixed bottom-4 right-4 z-50 max-w-sm animate-bounce">
+    <div className="bg-gradient-to-r from-violet-400/80 to-purple-400/80 p-0.5 rounded-xl">
+      <div className="bg-gray-900/95 rounded-lg p-4 backdrop-blur-md">
+        <div className="text-center">
+          <div className="text-lg font-bold text-gray-100 mb-2">
+            ✨ Special Offer
+          </div>
+          <div className="text-gray-300 text-sm">
+            Book with a friend and get
+          </div>
+          <div className="text-xl font-bold text-violet-300 mt-1">
+            Rp 50.000 OFF
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const FeatureCard = ({ icon: Icon, title, description }) => (
+  <div className="bg-gray-900/50 backdrop-blur-sm p-6 rounded-xl border border-violet-500/10 hover:border-violet-500/20 transition-all duration-300">
+    <div className="w-12 h-12 bg-violet-500/10 rounded-lg flex items-center justify-center mb-4">
+      <Icon className="w-6 h-6 text-violet-400" />
+    </div>
+    <h3 className="text-lg font-semibold text-gray-100 mb-2">{title}</h3>
+    <p className="text-gray-400">{description}</p>
+  </div>
+);
+
+const PricingCard = ({ title, price, benefits, isPopular }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  const formatWhatsAppMessage = (packageTitle) => {
+    const message = `Halo Feel.Inframe Photography! ✨
+
+Saya tertarik dengan ${packageTitle}
+    
+Detail Pesanan:
+- Paket: ${packageTitle}
+- Harga: Rp ${price}K/jam
+
+Mohon info lebih lanjut mengenai:
+1. Slot tanggal yang tersedia
+2. Lokasi foto yang direkomendasikan
+3. Persiapan yang diperlukan
+
+Terima kasih! 📸`;
+    
+    return encodeURIComponent(message);
+  };
+
+  return (
+    <div className={`relative p-6 rounded-xl transition-all duration-300 group ${
+      isPopular 
+        ? 'bg-gradient-to-b from-violet-500/10 to-purple-500/5 border border-violet-500/20' 
+        : 'bg-gray-900/50 border border-gray-800'
+    } hover:border-violet-500/20`}>
+      {isPopular && (
+        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-violet-500/90 text-white px-4 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+          <Star className="w-4 h-4" /> Most Popular
+        </div>
+      )}
+      <h3 className="text-xl font-semibold text-gray-100 mb-4">{title}</h3>
+      <div className="text-3xl font-bold text-violet-300 mb-6">
+        Rp {price}
+        <span className="text-base font-normal text-gray-400">/jam</span>
+      </div>
+      <button 
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="w-full text-left flex items-center justify-between text-gray-300 mb-4 hover:text-violet-300 transition-colors"
+      >
+        <span className="font-medium">Benefit yang kamu dapat</span>
+        <ChevronDown className={`transform transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+      </button>
+      <div className={`space-y-3 transition-all duration-300 ${isExpanded ? 'block' : 'hidden'}`}>
+        {benefits.map((benefit, index) => (
+          <div key={index} className="flex items-start text-gray-400">
+            <div className="h-5 w-5 mr-2 mt-1 text-violet-400">•</div>
+            <p>{benefit}</p>
+          </div>
+        ))}
+      </div>
+      <a 
+        href={`https://wa.me/6282345695620?text=${formatWhatsAppMessage(title)}`}
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="block text-center mt-6 bg-violet-500/90 hover:bg-violet-500/80 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300"
+      >
+        Book Now
+      </a>
+    </div>
+  );
+};
+
+export default function PhotographyLanding() {
+  const features = [
+    {
+      icon: Camera,
+      title: "Premium Quality",
+      description: "Hasil foto berkualitas tinggi dengan editing profesional"
+    },
+    {
+      icon: Clock,
+      title: "Fleksibel",
+      description: "Jadwal yang bisa disesuaikan dengan kebutuhanmu"
+    },
+    {
+      icon: MapPin,
+      title: "Lokasi Outdoor",
+      description: "Pilihan lokasi yang aesthetic untuk hasil terbaik"
+    },
+    {
+      icon: Users,
+      title: "Group Photo",
+      description: "Bisa foto bersama keluarga dan teman-teman"
+    }
+  ];
+
+  const packages = [
+    {
+      title: "PAKET FOTO BASIC",
+      price: "350K",
+      benefits: [
+        "1 jam sesi foto",
+        "Bebas berfoto selama sesi berlangsung",
+        "All file photo in Google drive (bisa diakses hingga 8 hari)",
+        "Tanpa minimal foto edit premium lightroom",
+        "Boleh foto bareng keluarga, pasangan, teman",
+        "Free moodboard dari kami",
+      ]
+    },
+    {
+      title: "PAKET FOTO PRIORITAS",
+      price: "650K",
+      benefits: [
+        "2 jam sesi foto",
+        "Bebas berfoto selama sesi berlangsung",
+        "Bebas pilih 2 lokasi foto (free transport)",
+        "All file photo in Google drive (10 hari akses)",
+        "Tanpa minimal foto edit premium lightroom",
+        "Boleh foto bareng keluarga, pasangan, teman",
+        "Free moodboard dari kami",
+      ],
+      isPopular: true
+    },
+    {
+      title: "PAKET FOTO LEBIH HEMAT",
+      price: "450K",
+      benefits: [
+        "Maximal 2 orang in frame",
+        "1 jam sesi foto",
+        "Bebas berfoto selama sesi berlangsung",
+        "All file photo in Google drive (8 hari akses)",
+        "Tanpa minimal foto edit premium lightroom",
+        "Free moodboard dari kami",
+      ]
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-gray-950 text-gray-100">
+      <PromoPopup />
+      
+      {/* Hero Section */}
+      <div className="relative py-20 px-6 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(124,58,237,0.1),_rgba(0,0,0,0)_50%)]"></div>
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <div className="inline-block mb-6 px-4 py-1.5 bg-violet-500/10 rounded-full">
+            <p className="text-sm font-medium text-violet-300">Abadikan Momen Wisudamu ✨</p>
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-violet-200 to-purple-200 bg-clip-text text-transparent">
+            FEEL.INFRAME PHOTOGRAPHY
+          </h1>
+          <p className="text-lg sm:text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+            Kami hadir untuk mengabadikan momen spesialmu dengan sentuhan profesional dan estetik yang memukau
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            {features.map((feature, index) => (
+              <FeatureCard key={index} {...feature} />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Promo Section */}
+      <div className="max-w-4xl mx-auto px-6 py-16">
+        <div className="bg-gradient-to-b from-violet-500/10 to-purple-500/5 rounded-2xl p-8 text-center border border-violet-500/20">
+          <h2 className="text-2xl font-bold text-gray-100 mb-4">
+            Special Promo! 🎉
+          </h2>
+          <p className="text-gray-400 text-lg mb-2">
+            Ajak temanmu untuk booking slot foto dan dapatkan
+          </p>
+          <p className="text-3xl font-bold text-violet-300 mb-4">
+            Diskon Rp 50.000
+          </p>
+          <p className="text-sm text-gray-500">
+            *Syarat dan ketentuan berlaku
+          </p>
+        </div>
+      </div>
+
+      {/* Pricing Section */}
+      <div className="max-w-6xl mx-auto px-6 pb-20">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-gray-100 mb-4">
+            Pilih Paket Foto
+          </h2>
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            Kami menawarkan berbagai paket yang bisa disesuaikan dengan kebutuhanmu
+          </p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-8">
+          {packages.map((pkg, index) => (
+            <PricingCard key={index} {...pkg} />
+          ))}
+        </div>
+
+        {/* Contact Section */}
+        <div className="mt-20 text-center">
+          <h3 className="text-2xl font-bold text-gray-100 mb-6">
+            Hubungi Kami
+          </h3>
+          <div className="flex flex-wrap justify-center gap-6">
+            <a href="https://instagram.com/feel.inframe" target="_blank" rel="noopener noreferrer" 
+               className="flex items-center text-gray-400 hover:text-violet-300 transition-colors px-4 py-2 rounded-lg bg-gray-900/50 border border-gray-800 hover:border-violet-500/20">
+              <Instagram className="w-5 h-5 mr-2" />
+              <span className="font-medium">@feel.inframe</span>
+            </a>
+            <a href="https://wa.me/6282345695620" target="_blank" rel="noopener noreferrer"
+               className="flex items-center text-gray-400 hover:text-violet-300 transition-colors px-4 py-2 rounded-lg bg-gray-900/50 border border-gray-800 hover:border-violet-500/20">
+              <Phone className="w-5 h-5 mr-2" />
+              <span className="font-medium">+62-823-4569-5620</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
